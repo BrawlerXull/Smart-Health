@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:smart_health/app/modules/challenges/views/challenges_view.dart';
 import 'package:smart_health/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:smart_health/app/modules/reminders/views/reminders_view.dart';
 
@@ -16,7 +17,7 @@ class HomeView extends GetView<HomeController> {
   static const List<Widget> _widgetOptions = <Widget>[
     DashboardView(),
     RemindersView(),
-    Text('Search', style: optionStyle),
+    ChallengesView(),
     Text('Profile', style: optionStyle),
   ];
 
@@ -53,7 +54,7 @@ class HomeView extends GetView<HomeController> {
                 tabs: const [
                   GButton(icon: LineIcons.book, text: 'Dashboard'),
                   GButton(icon: LineIcons.heart, text: 'Likes'),
-                  GButton(icon: LineIcons.search, text: 'Search'),
+                  GButton(icon: LineIcons.tasks, text: 'Challenges'),
                   GButton(icon: LineIcons.user, text: 'Profile'),
                 ],
                 selectedIndex: controller.selectedIndex.value,

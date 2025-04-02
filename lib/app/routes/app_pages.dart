@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/auth_view.dart';
+import '../modules/challenges/bindings/challenges_binding.dart';
+import '../modules/challenges/views/challenges_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -36,6 +38,11 @@ class AppPages {
       name: _Paths.REMINDERS,
       page: () => const RemindersView(),
       binding: RemindersBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHALLENGES,
+      page: () => const ChallengesView(),
+      binding: ChallengesBinding(),
     ),
   ];
 }
