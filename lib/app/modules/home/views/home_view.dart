@@ -4,6 +4,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:smart_health/app/modules/challenges/views/challenges_view.dart';
 import 'package:smart_health/app/modules/dashboard/views/dashboard_view.dart';
+import 'package:smart_health/app/modules/medi_buddy/views/medi_buddy_view.dart';
 import 'package:smart_health/app/modules/reminders/views/reminders_view.dart';
 
 import '../controllers/home_controller.dart';
@@ -18,7 +19,7 @@ class HomeView extends GetView<HomeController> {
     DashboardView(),
     RemindersView(),
     ChallengesView(),
-    Text('Profile', style: optionStyle),
+    MediBuddyView(),
   ];
 
   @override
@@ -55,7 +56,7 @@ class HomeView extends GetView<HomeController> {
                   GButton(icon: LineIcons.book, text: 'Dashboard'),
                   GButton(icon: LineIcons.check, text: 'Check'),
                   GButton(icon: LineIcons.tasks, text: 'Challenges'),
-                  GButton(icon: LineIcons.user, text: 'Profile'),
+                  GButton(icon: LineIcons.doctor, text: 'MediBuddy'),
                 ],
                 selectedIndex: controller.selectedIndex.value,
                 onTabChange: controller.changeIndex,
