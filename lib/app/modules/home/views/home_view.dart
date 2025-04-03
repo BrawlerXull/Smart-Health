@@ -53,7 +53,7 @@ class HomeView extends GetView<HomeController> {
                 color: Colors.black,
                 tabs: const [
                   GButton(icon: LineIcons.book, text: 'Dashboard'),
-                  GButton(icon: LineIcons.heart, text: 'Likes'),
+                  GButton(icon: LineIcons.check, text: 'Check'),
                   GButton(icon: LineIcons.tasks, text: 'Challenges'),
                   GButton(icon: LineIcons.user, text: 'Profile'),
                 ],

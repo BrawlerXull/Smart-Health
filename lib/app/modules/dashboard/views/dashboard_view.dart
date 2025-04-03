@@ -7,6 +7,7 @@ import 'package:smart_health/app/data/models/achievement.dart';
 import 'package:smart_health/app/data/models/challenge.dart';
 import 'package:smart_health/app/data/models/wellness_metrics.dart';
 import 'package:smart_health/app/data/models/wellness_alert.dart';
+import 'package:smart_health/app/modules/reminders/controllers/reminders_controller.dart';
 import 'package:smart_health/app/widgets/achievement_card.dart';
 import 'package:smart_health/app/widgets/challenge_card.dart';
 import 'package:smart_health/app/widgets/health_summary_card.dart';
@@ -48,15 +49,9 @@ class DashboardView extends GetView<DashboardController> {
       stressLevel: 5,
     );
 
-    final nextReminder = WellnessAlert(
-      alertId: "1",
-      alertTitle: "Hydration Alert 💧",
-      alertMessage: "Stay refreshed! Time for a water break.",
-      category: AlertCategory.hydration,
-      interval: AlertInterval.hourly,
-      alertTime: const TimeOfDay(hour: 10, minute: 0),
-      isEnabled: true,
-    );
+
+    final RemindersController remindersController =
+        Get.find<RemindersController>();
 
     final unlockedAchievements = [
       Achievement(
@@ -96,16 +91,7 @@ class DashboardView extends GetView<DashboardController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Header (Stats)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("🌟 Total Points: 150",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("🔥 Streak: 5 Days",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                    ],
-                  ),
+
                   const SizedBox(height: 20),
 
                   // Upcoming Reminder
@@ -114,7 +100,7 @@ class DashboardView extends GetView<DashboardController> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
                   const SizedBox(height: 12),
                   NextReminderCard(
-                      reminder: nextReminder,
+                      reminder: remindersController.nextReminder.value,
                       onComplete: () => print("Reminder completed")),
 
                   const SizedBox(height: 24),
