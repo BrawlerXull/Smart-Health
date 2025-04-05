@@ -5,49 +5,25 @@ import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:smart_health/app/data/models/achievement.dart';
 import 'package:smart_health/app/data/models/challenge.dart';
-import 'package:smart_health/app/data/models/wellness_metrics.dart';
-import 'package:smart_health/app/data/models/wellness_alert.dart';
+
 import 'package:smart_health/app/modules/reminders/controllers/reminders_controller.dart';
 import 'package:smart_health/app/widgets/achievement_card.dart';
 import 'package:smart_health/app/widgets/challenge_card.dart';
-import 'package:smart_health/app/widgets/health_summary_card.dart';
 import 'package:smart_health/app/widgets/next_reminder_card.dart';
 
 import '../controllers/dashboard_controller.dart';
 
-import 'package:flutter/material.dart';
 
-class TColor {
-  static Color get primaryColor1 => const Color(0xff92A3FD);
-  static Color get primaryColor2 => const Color(0xff9DCEFF);
 
-  static Color get secondaryColor1 => const Color(0xffC58BF2);
-  static Color get secondaryColor2 => const Color(0xffEEA4CE);
 
-  static List<Color> get primaryG => [primaryColor2, primaryColor1];
-  static List<Color> get secondaryG => [secondaryColor2, secondaryColor1];
-
-  static Color get black => const Color(0xff1D1617);
-  static Color get gray => const Color(0xff786F72);
-  static Color get white => Colors.white;
-  static Color get lightGray => const Color(0xffF7F8F8);
-}
 
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final wellnessMetrics = WellnessMetrics(
-      hydrationLevel: 60,
-      stepCount: 2300,
-      mindfulnessMinutes: 12,
-      postureCheckTimestamp: DateTime.now(),
-      sleepHours: 7,
-      caloriesBurned: 230,
-      heartRate: 78.5,
-      stressLevel: 5,
-    );
+List<Color>  primaryG = [Color(0xff9DCEFF), const Color(0xff92A3FD)];
+   List<Color>  secondaryG = [const Color(0xffEEA4CE), const Color(0xffC58BF2)];
 
 
     final RemindersController remindersController =
@@ -139,7 +115,7 @@ class DashboardView extends GetView<DashboardController> {
                                 duration: const Duration(seconds: 3),
                                 borderRadius: BorderRadius.circular(15),
                                 gradientColor: LinearGradient(
-                                    colors: TColor.primaryG,
+                                    colors: primaryG,
                                     begin: Alignment.bottomCenter,
                                     end: Alignment.topCenter),
                               ),
@@ -153,7 +129,7 @@ class DashboardView extends GetView<DashboardController> {
                                   Text(
                                     "Water Intake",
                                     style: TextStyle(
-                                        color: TColor.black,
+                                        color:const Color(0xff1D1617),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -161,7 +137,7 @@ class DashboardView extends GetView<DashboardController> {
                                     blendMode: BlendMode.srcIn,
                                     shaderCallback: (bounds) {
                                       return LinearGradient(
-                                              colors: TColor.primaryG,
+                                              colors: primaryG,
                                               begin: Alignment.centerLeft,
                                               end: Alignment.centerRight)
                                           .createShader(Rect.fromLTRB(0, 0,
@@ -170,7 +146,7 @@ class DashboardView extends GetView<DashboardController> {
                                     child: Text(
                                       "4 Liters",
                                       style: TextStyle(
-                                          color: TColor.white.withOpacity(0.7),
+                                          color: Colors.white.withOpacity(0.7),
                                           fontWeight: FontWeight.w700,
                                           fontSize: 14),
                                     ),
@@ -181,7 +157,7 @@ class DashboardView extends GetView<DashboardController> {
                                   Text(
                                     "Real time updates",
                                     style: TextStyle(
-                                      color: TColor.gray,
+                                      color: const Color(0xff786F72),
                                       fontSize: 12,
                                     ),
                                   ),
@@ -207,7 +183,7 @@ class DashboardView extends GetView<DashboardController> {
                                                 width: 10,
                                                 height: 10,
                                                 decoration: BoxDecoration(
-                                                  color: TColor.secondaryColor1
+                                                  color: const Color(0xffEEA4CE)
                                                       .withOpacity(0.5),
                                                   borderRadius:
                                                       BorderRadius.circular(5),
@@ -217,8 +193,7 @@ class DashboardView extends GetView<DashboardController> {
                                                 DottedDashedLine(
                                                     height: Get.width * 0.078,
                                                     width: 0,
-                                                    dashColor: TColor
-                                                        .secondaryColor1
+                                                    dashColor: const Color(0xffEEA4CE)
                                                         .withOpacity(0.5),
                                                     axis: Axis.vertical)
                                             ],
@@ -235,7 +210,7 @@ class DashboardView extends GetView<DashboardController> {
                                               Text(
                                                 wObj["title"].toString(),
                                                 style: TextStyle(
-                                                  color: TColor.gray,
+                                                  color: const Color(0xff786F72),
                                                   fontSize: 10,
                                                 ),
                                               ),
@@ -244,7 +219,7 @@ class DashboardView extends GetView<DashboardController> {
                                                 shaderCallback: (bounds) {
                                                   return LinearGradient(
                                                           colors:
-                                                              TColor.secondaryG,
+                                                              secondaryG,
                                                           begin: Alignment
                                                               .centerLeft,
                                                           end: Alignment
@@ -259,7 +234,7 @@ class DashboardView extends GetView<DashboardController> {
                                                 child: Text(
                                                   wObj["subtitle"].toString(),
                                                   style: TextStyle(
-                                                      color: TColor.white
+                                                      color: Colors.white
                                                           .withOpacity(0.7),
                                                       fontSize: 12),
                                                 ),
@@ -302,7 +277,7 @@ class DashboardView extends GetView<DashboardController> {
                                   Text(
                                     "Steps",
                                     style: TextStyle(
-                                        color: TColor.black,
+                                        color:const Color(0xff1D1617),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -310,7 +285,7 @@ class DashboardView extends GetView<DashboardController> {
                                     blendMode: BlendMode.srcIn,
                                     shaderCallback: (bounds) {
                                       return LinearGradient(
-                                              colors: TColor.primaryG,
+                                              colors: primaryG,
                                               begin: Alignment.centerLeft,
                                               end: Alignment.centerRight)
                                           .createShader(Rect.fromLTRB(0, 0,
@@ -319,7 +294,7 @@ class DashboardView extends GetView<DashboardController> {
                                     child: Text(
                                       "8h 20m",
                                       style: TextStyle(
-                                          color: TColor.white.withOpacity(0.7),
+                                          color: Colors.white.withOpacity(0.7),
                                           fontWeight: FontWeight.w700,
                                           fontSize: 14),
                                     ),
@@ -339,7 +314,7 @@ class DashboardView extends GetView<DashboardController> {
                                             alignment: Alignment.center,
                                             decoration: BoxDecoration(
                                               gradient: LinearGradient(
-                                                  colors: TColor.primaryG),
+                                                  colors: primaryG),
                                               borderRadius:
                                                   BorderRadius.circular(
                                                       Get.width * 0.075),
@@ -349,7 +324,7 @@ class DashboardView extends GetView<DashboardController> {
                                                 "2300 Steps\nleft",
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    color: TColor.white,
+                                                    color: Colors.white,
                                                     fontSize: 11),
                                               ),
                                             ),
@@ -357,7 +332,7 @@ class DashboardView extends GetView<DashboardController> {
                                           SimpleCircularProgressBar(
                                             progressStrokeWidth: 10,
                                             backStrokeWidth: 10,
-                                            progressColors: TColor.primaryG,
+                                            progressColors: primaryG,
                                             backColor: Colors.grey.shade100,
                                             valueNotifier: ValueNotifier(50),
                                             startAngle: -180,
@@ -389,7 +364,7 @@ class DashboardView extends GetView<DashboardController> {
                                   Text(
                                     "Calories",
                                     style: TextStyle(
-                                        color: TColor.black,
+                                        color:const Color(0xff1D1617),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -397,7 +372,7 @@ class DashboardView extends GetView<DashboardController> {
                                     blendMode: BlendMode.srcIn,
                                     shaderCallback: (bounds) {
                                       return LinearGradient(
-                                              colors: TColor.primaryG,
+                                              colors: primaryG,
                                               begin: Alignment.centerLeft,
                                               end: Alignment.centerRight)
                                           .createShader(Rect.fromLTRB(0, 0,
@@ -406,7 +381,7 @@ class DashboardView extends GetView<DashboardController> {
                                     child: Text(
                                       "760 kCal",
                                       style: TextStyle(
-                                          color: TColor.white.withOpacity(0.7),
+                                          color: Colors.white.withOpacity(0.7),
                                           fontWeight: FontWeight.w700,
                                           fontSize: 14),
                                     ),
@@ -426,7 +401,7 @@ class DashboardView extends GetView<DashboardController> {
                                             alignment: Alignment.center,
                                             decoration: BoxDecoration(
                                               gradient: LinearGradient(
-                                                  colors: TColor.primaryG),
+                                                  colors: primaryG),
                                               borderRadius:
                                                   BorderRadius.circular(
                                                       Get.width * 0.075),
@@ -436,7 +411,7 @@ class DashboardView extends GetView<DashboardController> {
                                                 "230kCal\nleft",
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    color: TColor.white,
+                                                    color: Colors.white,
                                                     fontSize: 11),
                                               ),
                                             ),
@@ -444,7 +419,7 @@ class DashboardView extends GetView<DashboardController> {
                                           SimpleCircularProgressBar(
                                             progressStrokeWidth: 10,
                                             backStrokeWidth: 10,
-                                            progressColors: TColor.primaryG,
+                                            progressColors: primaryG,
                                             backColor: Colors.grey.shade100,
                                             valueNotifier: ValueNotifier(50),
                                             startAngle: -180,
