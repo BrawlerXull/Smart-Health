@@ -9,6 +9,7 @@ abstract class Routes {
   static const REMINDERS = _Paths.REMINDERS;
   static const CHALLENGES = _Paths.CHALLENGES;
   static const MEDI_BUDDY = _Paths.MEDI_BUDDY;
+  static const LEADERBOARD = _Paths.LEADERBOARD;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const REMINDERS = '/reminders';
   static const CHALLENGES = '/challenges';
   static const MEDI_BUDDY = '/medi-buddy';
+  static const LEADERBOARD = '/leaderboard';
 }

@@ -8,6 +8,8 @@ import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/leaderboard/bindings/leaderboard_binding.dart';
+import '../modules/leaderboard/views/leaderboard_view.dart';
 import '../modules/medi_buddy/bindings/medi_buddy_binding.dart';
 import '../modules/medi_buddy/views/medi_buddy_view.dart';
 import '../modules/reminders/bindings/reminders_binding.dart';
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.MEDI_BUDDY,
       page: () => const MediBuddyView(),
       binding: MediBuddyBinding(),
+    ),
+    GetPage(
+      name: _Paths.LEADERBOARD,
+      page: () => const LeaderboardView(),
+      binding: LeaderboardBinding(),
     ),
   ];
 }
