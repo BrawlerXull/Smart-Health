@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:get/get.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
@@ -13,18 +16,13 @@ import 'package:smart_health/app/widgets/next_reminder_card.dart';
 
 import '../controllers/dashboard_controller.dart';
 
-
-
-
-
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({super.key});
 
   @override
   Widget build(BuildContext context) {
-List<Color>  primaryG = [Color(0xff9DCEFF), const Color(0xff92A3FD)];
-   List<Color>  secondaryG = [const Color(0xffEEA4CE), const Color(0xffC58BF2)];
-
+    List<Color> primaryG = [Color(0xff9DCEFF), const Color(0xff92A3FD)];
+    List<Color> secondaryG = [const Color(0xffEEA4CE), const Color(0xffC58BF2)];
 
     final RemindersController remindersController =
         Get.find<RemindersController>();
@@ -67,6 +65,12 @@ List<Color>  primaryG = [Color(0xff9DCEFF), const Color(0xff92A3FD)];
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(height: 20),
+                  Text("⏰ Streak Tracker",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                  const SizedBox(height: 12),
+                  GitHubHeatMap(),
 
                   const SizedBox(height: 20),
 
@@ -129,7 +133,7 @@ List<Color>  primaryG = [Color(0xff9DCEFF), const Color(0xff92A3FD)];
                                   Text(
                                     "Water Intake",
                                     style: TextStyle(
-                                        color:const Color(0xff1D1617),
+                                        color: const Color(0xff1D1617),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -193,8 +197,9 @@ List<Color>  primaryG = [Color(0xff9DCEFF), const Color(0xff92A3FD)];
                                                 DottedDashedLine(
                                                     height: Get.width * 0.078,
                                                     width: 0,
-                                                    dashColor: const Color(0xffEEA4CE)
-                                                        .withOpacity(0.5),
+                                                    dashColor:
+                                                        const Color(0xffEEA4CE)
+                                                            .withOpacity(0.5),
                                                     axis: Axis.vertical)
                                             ],
                                           ),
@@ -210,7 +215,8 @@ List<Color>  primaryG = [Color(0xff9DCEFF), const Color(0xff92A3FD)];
                                               Text(
                                                 wObj["title"].toString(),
                                                 style: TextStyle(
-                                                  color: const Color(0xff786F72),
+                                                  color:
+                                                      const Color(0xff786F72),
                                                   fontSize: 10,
                                                 ),
                                               ),
@@ -218,8 +224,7 @@ List<Color>  primaryG = [Color(0xff9DCEFF), const Color(0xff92A3FD)];
                                                 blendMode: BlendMode.srcIn,
                                                 shaderCallback: (bounds) {
                                                   return LinearGradient(
-                                                          colors:
-                                                              secondaryG,
+                                                          colors: secondaryG,
                                                           begin: Alignment
                                                               .centerLeft,
                                                           end: Alignment
@@ -277,7 +282,7 @@ List<Color>  primaryG = [Color(0xff9DCEFF), const Color(0xff92A3FD)];
                                   Text(
                                     "Steps",
                                     style: TextStyle(
-                                        color:const Color(0xff1D1617),
+                                        color: const Color(0xff1D1617),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -364,7 +369,7 @@ List<Color>  primaryG = [Color(0xff9DCEFF), const Color(0xff92A3FD)];
                                   Text(
                                     "Calories",
                                     style: TextStyle(
-                                        color:const Color(0xff1D1617),
+                                        color: const Color(0xff1D1617),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -477,6 +482,74 @@ List<Color>  primaryG = [Color(0xff9DCEFF), const Color(0xff92A3FD)];
           ),
         ],
       ),
+    );
+  }
+}
+
+class GitHubHeatMap extends StatelessWidget {
+  // Function to generate random streak data for a year
+  Map<DateTime, int> generateRandomData() {
+    final Random random = Random();
+    final Map<DateTime, int> data = {};
+    final int currentYear = DateTime.now().year;
+    final DateTime startDate = DateTime(currentYear, 1, 1);
+    final DateTime endDate = DateTime.now();
+
+    // Total days in the period
+    final int totalDays = endDate.difference(startDate).inDays + 1;
+
+    // Initially, set low activity (e.g., 0 or 1) for each day
+    for (int i = 0; i < totalDays; i++) {
+      final date = startDate.add(Duration(days: i));
+      data[date] = random.nextBool() ? 0 : 1;
+    }
+
+    // Define number of streaks to generate
+    int streakCount = 5;
+
+    for (int i = 0; i < streakCount; i++) {
+      // Randomly pick a starting day within the period
+      int streakStartOffset = random.nextInt(totalDays);
+      // Random streak length between 3 and 10 days
+      int streakLength = 3 + random.nextInt(8);
+
+      // Loop over the streak period and assign a higher value
+      for (int j = 0; j < streakLength; j++) {
+        int dayOffset = streakStartOffset + j;
+        // Ensure we do not exceed the period
+        if (dayOffset < totalDays) {
+          final date = startDate.add(Duration(days: dayOffset));
+          // Assign a random high value between 3 and 7
+          data[date] = 3 + random.nextInt(5);
+        }
+      }
+    }
+
+    return data;
+  }
+
+  GitHubHeatMap({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final Map<DateTime, int> datasets = generateRandomData();
+
+    return HeatMap(
+      startDate: DateTime(DateTime.now().year, 1, 1),
+      endDate: DateTime.now(),
+      datasets: datasets,
+      colorMode: ColorMode.opacity,
+      defaultColor: Colors.grey[300]!,
+      textColor: Colors.black87,
+      // Customize the color thresholds using darker shades:
+      colorsets: {
+        1: Colors.green[700]!,
+        3: Colors.green[800]!,
+        5: Colors.green[800]!,
+        7: Colors.green[900]!,
+      },
+      showColorTip: false,
+      scrollable: true,
     );
   }
 }
