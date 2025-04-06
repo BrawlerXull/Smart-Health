@@ -4,8 +4,11 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:smart_health/app/modules/challenges/views/challenges_view.dart';
 import 'package:smart_health/app/modules/dashboard/views/dashboard_view.dart';
+import 'package:smart_health/app/modules/fitbit/views/fitbit_view.dart';
+
 import 'package:smart_health/app/modules/leaderboard/views/leaderboard_view.dart';
 import 'package:smart_health/app/modules/medi_buddy/views/medi_buddy_view.dart';
+import 'package:smart_health/app/modules/medication/views/medication_view.dart';
 import 'package:smart_health/app/modules/posture_tracker/views/posture_tracker_view.dart';
 import 'package:smart_health/app/modules/reminders/views/reminders_view.dart';
 
@@ -19,10 +22,12 @@ class HomeView extends GetView<HomeController> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     DashboardView(),
+    MedicationView(),
     RemindersView(),
     ChallengesView(),
     MediBuddyView(),
     PostureTrackerView(),
+    FitbitView(),
   ];
 
   @override
@@ -59,10 +64,12 @@ class HomeView extends GetView<HomeController> {
                   color: Colors.black,
                   tabs: const [
                     GButton(icon: LineIcons.book, text: 'Dashboard'),
+                    GButton(icon: LineIcons.medicalNotes, text: 'Medication'),
                     GButton(icon: LineIcons.check, text: 'Check'),
                     GButton(icon: LineIcons.tasks, text: 'Challenges'),
                     GButton(icon: LineIcons.doctor, text: 'MediBuddy'),
                     GButton(icon: LineIcons.school, text: 'Leaderboard'),
+                    GButton(icon: LineIcons.running, text: 'Fitbit'),
                   ],
                   selectedIndex: controller.selectedIndex.value,
                   onTabChange: controller.changeIndex,
