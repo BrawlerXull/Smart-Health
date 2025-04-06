@@ -20,6 +20,16 @@ class MedicationView extends GetView<MedicationController> {
 
     return Scaffold(
       backgroundColor: Constants.backgroundColor,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Constants.lightBlue,
+        onPressed: () {
+          // Add your action here
+        },
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        ),
+        child: Icon(Icons.add),
+      ),
       body: Stack(
         children: <Widget>[
           ClipPath(
@@ -58,10 +68,6 @@ class MedicationView extends GetView<MedicationController> {
                           ),
                       ),
                     ),
-                    CircleAvatar(
-                      radius: 26.0,
-                      backgroundImage: AssetImage('assets/icons/profile_picture.png')
-                    )
                   ],
                 ),
 
