@@ -10,6 +10,7 @@ abstract class Routes {
   static const CHALLENGES = _Paths.CHALLENGES;
   static const MEDI_BUDDY = _Paths.MEDI_BUDDY;
   static const LEADERBOARD = _Paths.LEADERBOARD;
+  static const POSTURE_TRACKER = _Paths.POSTURE_TRACKER;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const CHALLENGES = '/challenges';
   static const MEDI_BUDDY = '/medi-buddy';
   static const LEADERBOARD = '/leaderboard';
+  static const POSTURE_TRACKER = '/posture-tracker';
 }

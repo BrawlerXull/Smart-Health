@@ -45,6 +45,9 @@ dependencies:
   dotted_dashed_line: ^0.0.3
   flutter_tts: ^4.2.2
   flutter_heatmap_calendar: ^1.0.5
+  sensors_plus: ^6.1.1
+  shared_preferences: ^2.5.3
+  just_audio: ^0.9.46
 
 dev_dependencies:
   flutter_test:

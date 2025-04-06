@@ -11,19 +11,18 @@ class MediBuddyController extends GetxController {
     await Future.delayed(Duration(seconds: 1)); // Simulate processing
     script.value = """<speak>
           <prosody rate='medium' pitch='medium'>
-            Breathe deeply for the next 10 seconds.
+            Take a deep breath and relax for the next 10 seconds, clearing your mind of distractions.
             <break time='10s'/>
-            Now, gently transition into a meditative state for the next 5 seconds.
-            <break time='5s'/>
-            Close your eyes and take a deep breath. Imagine yourself in a serene environment, feeling completely at peace.
+            Now, gently shift your attention to the task ahead. Focus on the subject you're studying, and let your mind absorb the material for the next 5 seconds.
           </prosody>
         </speak>""";
+
     isGenerating.value = false;
   }
 
   void speakText() async {
-      await flutterTts.setLanguage("en-US");
-      await flutterTts.setPitch(1.0);
-      await flutterTts.speak(script.value);
-    }
+    await flutterTts.setLanguage("en-US");
+    await flutterTts.setPitch(1.0);
+    await flutterTts.speak(script.value);
+  }
 }

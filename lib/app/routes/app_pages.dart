@@ -12,6 +12,8 @@ import '../modules/leaderboard/bindings/leaderboard_binding.dart';
 import '../modules/leaderboard/views/leaderboard_view.dart';
 import '../modules/medi_buddy/bindings/medi_buddy_binding.dart';
 import '../modules/medi_buddy/views/medi_buddy_view.dart';
+import '../modules/posture_tracker/bindings/posture_tracker_binding.dart';
+import '../modules/posture_tracker/views/posture_tracker_view.dart';
 import '../modules/reminders/bindings/reminders_binding.dart';
 import '../modules/reminders/views/reminders_view.dart';
 
@@ -57,6 +59,11 @@ class AppPages {
       name: _Paths.LEADERBOARD,
       page: () => const LeaderboardView(),
       binding: LeaderboardBinding(),
+    ),
+    GetPage(
+      name: _Paths.POSTURE_TRACKER,
+      page: () => const PostureTrackerView(),
+      binding: PostureTrackerBinding(),
     ),
   ];
 }
