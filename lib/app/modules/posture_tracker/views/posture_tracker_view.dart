@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_health/app/widgets/custom_clipper.dart';
+import 'package:smart_health/app/data/utils/constants.dart';
 import '../controllers/posture_tracker_controller.dart';
 
 class PostureTrackerView extends GetView<PostureTrackerController> {
@@ -7,119 +9,126 @@ class PostureTrackerView extends GetView<PostureTrackerController> {
 
   @override
   Widget build(BuildContext context) {
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+
     return Scaffold(
-      body: Obx(() => Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  controller.uiColor.value,
-                  Colors.white,
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+      backgroundColor: Constants.backgroundColor,
+      body: Stack(
+        children: [
+          // Header
+          ClipPath(
+            clipper: MyCustomClipper(clipType: ClipType.bottom),
+            child: Container(
+              height: Constants.headerHeight + statusBarHeight + 50,
+              color: Constants.lightBlue,
+            ),
+          ),
+          Positioned(
+            left: -40,
+            top: -20,
+            child: ClipOval(
+              child: Container(
+                color: Colors.black.withOpacity(0.05),
+                height: 160,
+                width: 160,
               ),
             ),
-            child: SafeArea(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      "🧍‍♂️ Posture Tracker",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ),
-                  Card(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    elevation: 6,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        children: [
-                          Icon(
-                            controller.postureValid.value
-                                ? Icons.check_circle_outline
-                                : Icons.warning_amber_rounded,
-                            size: 40,
-                            color: controller.postureValid.value
-                                ? Colors.green
-                                : Colors.red,
+          ),
+          SafeArea(
+            child: Obx(
+              () => SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Posture Tracker",
+                     style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white
                           ),
-                          const SizedBox(height: 10),
-                          Text(
-                            controller.postureValid.value
-                                ? "Excellent Posture!"
-                                : "Needs Correction",
-                            style: const TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
+                    ),
+                    const SizedBox(height: 20),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      elevation: 6,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          children: [
+                            Icon(
+                              controller.postureValid.value
+                                  ? Icons.check_circle_outline
+                                  : Icons.warning_amber_rounded,
+                              size: 40,
+                              color: controller.postureValid.value ? Colors.green : Colors.red,
                             ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            "Posture Score: 93",
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ],
+                            const SizedBox(height: 10),
+                            Text(
+                              controller.postureValid.value
+                                  ? "Excellent Posture!"
+                                  : "Needs Correction",
+                              style: const TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            const Text(
+                              "Posture Score: 93",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    height: 60,
-                    width: 60,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        CircularProgressIndicator(
-                          value: controller.qualityScore.value ,
-                          strokeWidth: 14,
-                          backgroundColor: Colors.grey.shade300,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            controller.postureValid.value
-                                ? Colors.green
-                                : Colors.red,
-                          ),
-                        ),
-                        Text(
-                          "89%",
-                          style: const TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
+                    const SizedBox(height: 30),
+                    // SizedBox(
+                    //   height: 60,
+                    //   width: 60,
+                    //   child: Stack(
+                    //     alignment: Alignment.center,
+                    //     children: [
+                    //       CircularProgressIndicator(
+                    //         value: controller.qualityScore.value,
+                    //         strokeWidth: 14,
+                    //         backgroundColor: Colors.grey.shade300,
+                    //         valueColor: AlwaysStoppedAnimation<Color>(
+                    //           controller.postureValid.value ? Colors.green : Colors.red,
+                    //         ),
+                    //       ),
+                    //       Text(
+                    //         "68.8%",
+                    //         style: const TextStyle(
+                    //           fontSize: 22,
+                    //           fontWeight: FontWeight.bold,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 20),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         _buildMetricCard("Good Posture", "${controller.goodTime.value} min", Colors.green),
                         _buildMetricCard("Bad Posture", "27 min", Colors.red),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                    const SizedBox(height: 30),
+                    Container(
+                      width: double.infinity,
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.95),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: ListView(
-                        children: const [
+                      child: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Text(
                             "📌 Posture Improvement Tips",
                             style: TextStyle(
@@ -147,11 +156,13 @@ class PostureTrackerView extends GetView<PostureTrackerController> {
                         ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          )),
+          ),
+        ],
+      ),
     );
   }
 

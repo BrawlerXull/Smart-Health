@@ -15,7 +15,7 @@ class ChallengeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       shadowColor: isCompleted ? Colors.green.withOpacity(0.3) : Colors.blueAccent.withOpacity(0.2),
       color: isCompleted ? Colors.grey[200] : Colors.white,
       child: Padding(

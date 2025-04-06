@@ -50,7 +50,7 @@ class MedicationView extends GetView<MedicationController> {
                   ),
               ),
           ),
-
+          
           // BODY
           Padding(
             padding: EdgeInsets.all(Constants.paddingSide),

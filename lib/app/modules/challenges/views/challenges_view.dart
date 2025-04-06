@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_health/app/widgets/challenge_card.dart';
+import 'package:smart_health/app/widgets/custom_clipper.dart';
+import 'package:smart_health/app/data/utils/constants.dart';
 import '../controllers/challenges_controller.dart';
 
 class ChallengesView extends GetView<ChallengesController> {
@@ -9,49 +11,88 @@ class ChallengesView extends GetView<ChallengesController> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ChallengesController());
+    double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Challenges'),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      backgroundColor: Constants.backgroundColor,
+      body: Stack(
         children: [
-          // Toggle Buttons
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Obx(
-              () => Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _toggleButton(
-                    text: "🏆 Active",
-                    isSelected: controller.showActive.value,
-                    onTap: () => controller.showActive.value = true,
-                  ),
-                  const SizedBox(width: 12),
-                  _toggleButton(
-                    text: "✅ Completed",
-                    isSelected: !controller.showActive.value,
-                    onTap: () => controller.showActive.value = false,
-                  ),
-                ],
+          // Header background
+          ClipPath(
+            clipper: MyCustomClipper(clipType: ClipType.bottom),
+            child: Container(
+              color: Constants.lightBlue,
+              height: Constants.headerHeight + statusBarHeight,
+            ),
+          ),
+          Positioned(
+            right: -45,
+            top: -30,
+            child: ClipOval(
+              child: Container(
+                color: Colors.black.withOpacity(0.05),
+                height: 220,
+                width: 220,
               ),
             ),
           ),
 
-          // Challenges List
-          Expanded(
-            child: Obx(() {
-              final challenges = controller.showActive.value
-                  ? controller.activeChallenges
-                  : controller.completedChallenges;
-              return challenges.isEmpty
-                  ? _emptyState(controller.showActive.value
-                      ? "No active challenges at the moment."
-                      : "Complete challenges to see them here!")
-                  : ListView.builder(
-                      padding: const EdgeInsets.all(16.0),
+          // Body
+          Padding(
+            padding: EdgeInsets.only(
+              top: 60,
+              left: Constants.paddingSide,
+              right: Constants.paddingSide,
+              bottom: 10,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Challenges",
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white),
+                ),
+                SizedBox(height: 20),
+                // Toggle buttons
+                Obx(
+                  () => Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _toggleButton(
+                        text: "🏆 Active",
+                        isSelected: controller.showActive.value,
+                        onTap: () => controller.showActive.value = true,
+                      ),
+                      const SizedBox(width: 12),
+                      _toggleButton(
+                        text: "✅ Completed",
+                        isSelected: !controller.showActive.value,
+                        onTap: () => controller.showActive.value = false,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Challenges list
+                Expanded(
+                  child: Obx(() {
+                    final challenges = controller.showActive.value
+                        ? controller.activeChallenges
+                        : controller.completedChallenges;
+
+                    if (challenges.isEmpty) {
+                      return _emptyState(
+                        controller.showActive.value
+                            ? "No active challenges at the moment."
+                            : "Complete challenges to see them here!",
+                      );
+                    }
+
+                    return ListView.builder(
                       itemCount: challenges.length,
                       itemBuilder: (context, index) => Padding(
                         padding: const EdgeInsets.only(bottom: 12.0),
@@ -61,14 +102,21 @@ class ChallengesView extends GetView<ChallengesController> {
                         ),
                       ),
                     );
-            }),
+                  }),
+                ),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _toggleButton({required String text, required bool isSelected, required VoidCallback onTap}) {
+  Widget _toggleButton({
+    required String text,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
