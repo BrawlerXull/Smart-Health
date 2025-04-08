@@ -549,8 +549,11 @@ class DashboardView extends GetView<DashboardController> {
   }
 }
 
+
 class GitHubHeatMap extends StatelessWidget {
-  // Function to generate random streak data for the last 4 months
+  GitHubHeatMap({Key? key}) : super(key: key);
+
+  // Generate random streak data
   Map<DateTime, int> generateRandomData(DateTime startDate, DateTime endDate) {
     final Random random = Random();
     final Map<DateTime, int> data = {};
@@ -576,30 +579,58 @@ class GitHubHeatMap extends StatelessWidget {
     return data;
   }
 
-  GitHubHeatMap({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final DateTime endDate = DateTime.now();
     final DateTime startDate =
-        DateTime(endDate.year, endDate.month - 3, endDate.day); // Last 4 months
+        DateTime(endDate.year, endDate.month - 3, endDate.day);
     final Map<DateTime, int> datasets = generateRandomData(startDate, endDate);
 
-    return HeatMap(
-      startDate: startDate,
-      endDate: endDate,
-      datasets: datasets,
-      colorMode: ColorMode.opacity,
-      defaultColor: Colors.grey[300]!,
-      textColor: Colors.black87,
-      colorsets: {
-        1: Colors.green[700]!,
-        3: Colors.green[800]!,
-        5: Colors.green[800]!,
-        7: Colors.green[900]!,
-      },
-      showColorTip: false,
-      scrollable: true,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            '🔥 Meditation Streak',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 10),
+          HeatMap(
+            startDate: startDate,
+            endDate: endDate,
+            datasets: datasets,
+            colorMode: ColorMode.opacity,
+            defaultColor: Colors.grey[200]!,
+            textColor: Colors.black87,
+            showColorTip: false,
+            scrollable: true,
+            size: 16,
+            colorsets: {
+              1: Colors.green.shade300,
+              3: Colors.green.shade500,
+              5: Colors.green.shade600,
+              7: Colors.green.shade800,
+            },
+          ),
+        ],
+      ),
     );
   }
 }

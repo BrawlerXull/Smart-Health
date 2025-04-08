@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_health/app/data/utils/constants.dart';
+import 'package:smart_health/app/widgets/custom_clipper.dart';
 
 import '../controllers/leaderboard_controller.dart';
 
@@ -31,132 +33,218 @@ class LeaderboardView extends GetView<LeaderboardController> {
 
   @override
   Widget build(BuildContext context) {
+    // Use existing Constants values as substitutes
+    final background = Constants.lightBackground;
+    final primary = Constants.lightAccent;
+    final cardBackground = Constants.lightPrimary;
+    final shadow = Colors.black;
+    double statusBarHeight = MediaQuery.of(context).padding.top;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Leaderboard')),
-      body: Column(
+      backgroundColor: background,
+      body: Stack(
         children: [
-          const SizedBox(height: 16),
-
-          // Toggle Switch for Daily, Weekly, Monthly
-          Obx(() => Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: ["Daily", "Weekly", "Monthly"]
-                    .map((label) => _toggleButton(
-                          text: label,
-                          isSelected: controller.selectedTab.value == label,
-                          onTap: () => controller.selectedTab.value = label,
-                        ))
-                    .toList(),
-              )),
-
-          const SizedBox(height: 16),
-
-          // Leaderboard List
-          Expanded(
-            child: Obx(() {
-              final leaderboardData = controller.getLeaderboardData();
-              return ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: leaderboardData.length,
-                itemBuilder: (context, index) =>
-                    _buildLeaderboardItem(index + 1),
-              );
-            }),
+          ClipPath(
+            clipper: MyCustomClipper(clipType: ClipType.bottom),
+            child: Container(
+              color: Constants.lightBlue,
+              height: Constants.headerHeight + statusBarHeight,
+            ),
           ),
+          Positioned(
+            right: -45,
+            top: -30,
+            child: ClipOval(
+              child: Container(
+                color: Colors.black.withOpacity(0.05),
+                height: 220,
+                width: 220,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              top: 80,
+              left: 10,
+              right: 10,
+              bottom: 10,
+            ),
+            child: Column(
+              children: [
+                Text(
+                  "Leaderboard",
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white),
+                ),
+                const SizedBox(height: 16),
+                Obx(() => Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: ["Daily", "Weekly", "Monthly"]
+                          .map((label) => _toggleButton(
+                                text: label,
+                                isSelected:
+                                    controller.selectedTab.value == label,
+                                onTap: () =>
+                                    controller.selectedTab.value = label,
+                                primary: primary,
+                                cardBackground: cardBackground,
+                              ))
+                          .toList(),
+                    )),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: Obx(() {
+                    final leaderboardData = controller.getLeaderboardData();
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: leaderboardData.length,
+                      itemBuilder: (context, index) => _buildLeaderboardCard(
+                        index + 1,
+                        primary,
+                        cardBackground,
+                        shadow,
+                      ),
+                    );
+                  }),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
   }
 
-  Widget _toggleButton(
-      {required String text,
-      required bool isSelected,
-      required VoidCallback onTap}) {
+  Widget _toggleButton({
+    required String text,
+    required bool isSelected,
+    required VoidCallback onTap,
+    required Color primary,
+    required Color cardBackground,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         margin: const EdgeInsets.symmetric(horizontal: 6),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.blueAccent : Colors.grey[300],
+          color: isSelected ? primary : cardBackground,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
           text,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: isSelected ? Colors.white : Colors.black,
+            color: isSelected ? Colors.white : Constants.textPrimary,
           ),
         ),
       ),
     );
   }
 
-  
-Widget _buildLeaderboardItem(int rank) {
-  IconData rankIcon;
-  Color rankColor;
+  Widget _buildLeaderboardCard(
+    int rank,
+    Color primary,
+    Color cardBackground,
+    Color shadow,
+  ) {
+    IconData rankIcon;
+    Color rankColor;
 
-  // Assigning medal icons for top 3 positions
-  switch (rank) {
-    case 1:
-      rankIcon = Icons.emoji_events;
-      rankColor = Colors.amber;
-      break;
-    case 2:
-      rankIcon = Icons.emoji_events;
-      rankColor = Colors.grey;
-      break;
-    case 3:
-      rankIcon = Icons.emoji_events;
-      rankColor = Colors.brown;
-      break;
-    default:
-      rankIcon = Icons.star_border;
-      rankColor = Colors.blueGrey;
-  }
+    switch (rank) {
+      case 1:
+        rankIcon = Icons.emoji_events;
+        rankColor = Colors.amber;
+        break;
+      case 2:
+        rankIcon = Icons.emoji_events;
+        rankColor = Colors.grey;
+        break;
+      case 3:
+        rankIcon = Icons.emoji_events;
+        rankColor = Colors.brown;
+        break;
+      default:
+        rankIcon = Icons.star_border;
+        rankColor = primary;
+    }
 
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8),
-    child: Row(
-      children: [
-        // Rank Icon
-        CircleAvatar(
-          backgroundColor: rankColor,
-          child: Icon(rankIcon, color: Colors.white),
-        ),
-        const SizedBox(width: 12),
-
-        // Username
-        Text(
-          'User $rank',
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-
-        const Spacer(),
-
-        // Streak
-        Row(
-          children: [
-            const Icon(Icons.local_fire_department, color: Colors.orange, size: 20),
-            const SizedBox(width: 4),
-            Text(
-              '${rank + 2}🔥',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      height: 100,
+      decoration: BoxDecoration(
+        color: cardBackground,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: shadow.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            child: ClipPath(
+              clipper: MyCustomClipper(clipType: ClipType.halfCircle),
+              child: Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: rankColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
-          ],
-        ),
-
-        const SizedBox(width: 16),
-
-        // Points
-        Text(
-          '${(11 - rank) * 100} pts',
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-      ],
-    ),
-  );
-}
-
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: rankColor,
+                  child: Icon(rankIcon, color: Colors.white),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('User $rank',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Constants.textPrimary)),
+                      const SizedBox(height: 6),
+                      Row(
+                        children: [
+                          const Icon(Icons.local_fire_department,
+                              size: 16, color: Colors.orange),
+                          const SizedBox(width: 4),
+                          Text('${rank + 2} day streak',
+                              style: TextStyle(
+                                  fontSize: 14, color: Constants.textPrimary)),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  '${(11 - rank) * 100} pts',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Constants.textPrimary),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }

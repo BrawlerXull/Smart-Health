@@ -17,10 +17,12 @@ class AlertListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isEnabled = reminder.isEnabled;
+
     return Dismissible(
       key: ValueKey(reminder.alertTitle),
       direction: DismissDirection.horizontal,
-      background: _buildSlideBackground(Colors.green, Icons.check, "Activate/Deactivate", Alignment.centerLeft),
+      background: _buildSlideBackground(Colors.green, Icons.check, "Toggle", Alignment.centerLeft),
       secondaryBackground: _buildSlideBackground(Colors.red, Icons.delete, "Delete", Alignment.centerRight),
       onDismissed: (direction) {
         if (direction == DismissDirection.startToEnd) {
@@ -30,18 +32,19 @@ class AlertListItem extends StatelessWidget {
         }
       },
       child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        color: isEnabled ? Colors.white : Colors.grey[200],
+        elevation: 2,
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        elevation: 3,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.15),
         child: Padding(
-          padding: const EdgeInsets.all(14.0),
+          padding: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Icon + Title + Message Row
+              // Icon + Title + Subtitle
               Row(
                 children: [
-                  _iconWithBackground(reminder.category, reminder.isEnabled),
+                  _iconWithBackground(reminder.category, isEnabled),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -50,37 +53,39 @@ class AlertListItem extends StatelessWidget {
                         Text(
                           reminder.alertTitle,
                           style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            color: reminder.isEnabled ? Colors.black : Colors.grey,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: isEnabled ? Colors.black : Colors.grey,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           reminder.alertMessage,
                           style: TextStyle(
-                            fontSize: 14,
-                            color: reminder.isEnabled ? Colors.grey[700] : Colors.grey,
+                            fontSize: 13,
+                            color: isEnabled ? Colors.grey[700] : Colors.grey[500],
                           ),
                         ),
                       ],
                     ),
                   ),
+                  IconButton(
+                    icon: const Icon(Icons.edit, size: 20),
+                    onPressed: onEdit,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ],
               ),
               const SizedBox(height: 12),
 
-              // Alert Time & Interval Row
+              // Time and Interval
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _infoTile(Icons.access_time, reminder.alertTime.format(context), reminder.isEnabled),
-                  _infoTile(Icons.repeat, _getIntervalText(reminder.interval), reminder.isEnabled),
+                  _infoTile(Icons.access_time, reminder.alertTime.format(context), isEnabled),
+                  _infoTile(Icons.repeat, _getIntervalText(reminder.interval), isEnabled),
                 ],
               ),
-              const SizedBox(height: 10),
-
-             
             ],
           ),
         ),
@@ -111,7 +116,7 @@ class AlertListItem extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           text,
-          style: TextStyle(fontSize: 14, color: isEnabled ? Colors.grey[800] : Colors.grey[600]),
+          style: TextStyle(fontSize: 13, color: isEnabled ? Colors.grey[800] : Colors.grey[600]),
         ),
       ],
     );
@@ -123,13 +128,13 @@ class AlertListItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: isEnabled
             ? _getAlertColor(category).withOpacity(0.15)
-            : Colors.grey.withOpacity(0.2), // Muted color when disabled
+            : Colors.grey.withOpacity(0.2),
         shape: BoxShape.circle,
       ),
       child: Icon(
         _getAlertIcon(category),
         color: isEnabled ? _getAlertColor(category) : Colors.grey,
-        size: 28,
+        size: 24,
       ),
     );
   }

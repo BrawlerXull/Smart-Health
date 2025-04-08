@@ -28,6 +28,7 @@ class HomeView extends GetView<HomeController> {
     MediBuddyView(),
     PostureTrackerView(),
     FitbitView(),
+    LeaderboardView(),
   ];
 
   @override
@@ -68,8 +69,9 @@ class HomeView extends GetView<HomeController> {
                     GButton(icon: LineIcons.check, text: 'Check'),
                     GButton(icon: LineIcons.tasks, text: 'Challenges'),
                     GButton(icon: LineIcons.doctor, text: 'MediBuddy'),
-                    GButton(icon: LineIcons.school, text: 'Leaderboard'),
+                    GButton(icon: LineIcons.school, text: 'Posture'),
                     GButton(icon: LineIcons.running, text: 'Fitbit'),
+                    GButton(icon: LineIcons.baseballBall, text: 'Leaderboard'),
                   ],
                   selectedIndex: controller.selectedIndex.value,
                   onTabChange: controller.changeIndex,
