@@ -12,13 +12,14 @@ import '../modules/fitbit/views/fitbit_view.dart';
 import '../modules/fitbit/views/fitbit_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
-
 import '../modules/leaderboard/bindings/leaderboard_binding.dart';
 import '../modules/leaderboard/views/leaderboard_view.dart';
 import '../modules/medi_buddy/bindings/medi_buddy_binding.dart';
 import '../modules/medi_buddy/views/medi_buddy_view.dart';
 import '../modules/medication/bindings/medication_binding.dart';
 import '../modules/medication/views/medication_view.dart';
+import '../modules/onboarding/bindings/onboarding_binding.dart';
+import '../modules/onboarding/views/onboarding_view.dart';
 import '../modules/posture_tracker/bindings/posture_tracker_binding.dart';
 import '../modules/posture_tracker/views/posture_tracker_view.dart';
 import '../modules/reminders/bindings/reminders_binding.dart';
@@ -29,7 +30,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.ONBOARDING;
 
   static final routes = [
     GetPage(
@@ -88,6 +89,11 @@ class AppPages {
       name: _Paths.MEDICATION,
       page: () => const MedicationView(),
       binding: MedicationBinding(),
+    ),
+    GetPage(
+      name: _Paths.ONBOARDING,
+      page: () => const OnboardingView(),
+      binding: OnboardingBinding(),
     ),
   ];
 }
