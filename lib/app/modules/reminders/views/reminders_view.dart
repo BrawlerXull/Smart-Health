@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_health/app/data/utils/constants.dart';
+import 'package:smart_health/app/modules/reminders/views/weather_card.dart';
 import 'package:smart_health/app/widgets/alert_list_item.dart';
 import 'package:smart_health/app/widgets/custom_clipper.dart';
 
@@ -52,13 +53,14 @@ class RemindersView extends GetView<RemindersController> {
                   height: 40,
                 ),
                 const Text(
-                  "    Reminders",
+                  "Hello Anon,\nStay Hydrated",
                   style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w900,
                       color: Colors.white),
                 ),
                 const SizedBox(height: 20),
+                WeatherCard(recommendedDailyGoal: 2000,),
                 Expanded(
                   child: Obx(() {
                     if (controller.reminders.isEmpty) {
